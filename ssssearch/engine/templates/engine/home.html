@@ -1,0 +1,26 @@
+{% extends 'engine/base.html' %}
+{% load static %}
+{% block content %}
+<style>
+    div {
+        text-align: center;
+    }
+    .search-bar{
+        margin-top: 7%;
+    }
+</style>
+    <div class="home">
+        <h1>Gorilla-bino Search Engine</h1>
+        <!--obrazek-->
+        <img src="../static/images/goryl.png" alt="Gorilla-bino Search Engine" width="150" height="150">
+        <div class="search-bar">
+            <form method="POST" action="results">
+                {% csrf_token %}
+                <input class="form-control form-control-lg" type="text" placeholder="Czego szukasz?" name="Search">
+                <button type="submit" class="btn btn-dark">szukaj</button>
+            </form>
+        </div>
+
+
+    </div>
+{% endblock content %}
