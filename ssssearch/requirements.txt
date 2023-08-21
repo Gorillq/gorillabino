@@ -1,0 +1,5 @@
+beautifulsoup4==4.12.2
+Django=3.2.20
+requests==2.31.0
+virtualenv==20.24.2
+html5lib==1.1
