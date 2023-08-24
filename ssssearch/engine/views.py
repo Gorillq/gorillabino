@@ -13,17 +13,16 @@ def results(request):
         if query == "":
             return render(request, 'engine/home.html')
         else:
-
             results = []
             #type api key
-            page = requests.get('https://www.googleapis.com/customsearch/v1?key=your_api_key&cx=c380acb00f58141eb&q='+query).text
-            soup = BeautifulSoup(page)
-            listings = soup.find_all(class_="items")
+            page = requests.get(f'https://search.lycos.com/web/?q=' + query).text
+            soup = BeautifulSoup(page, 'lxml')
+            listings = soup.find_all(class_="result-item")
             for content in listings:
-                title = content.find(class_='title').text
-                description = content.find(class_='snippet').text
-                link = content.find(class_='link').text
-                url = content.find(class_='formattedUrl').text
+                title = content.find(class_='result-title').text
+                description = content.find(class_='result-description').text
+                link = content.find(class_='result-link').text
+                url = content.find(class_='result-url').text
                 results.append((title,description,url))
             context = {
                 'results':results
