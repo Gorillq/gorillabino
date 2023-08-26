@@ -1,7 +1,5 @@
 from django.shortcuts import render
-
-from bs4 import BeautifulSoup
-import requests
+from engine.search import duck
 
 
 def query(request):
@@ -10,26 +8,13 @@ def query(request):
 def results(request):
     if request.method == "POST":
         query = request.POST.get('search')
+        link, text = duck(query)
+        data = zip(link, text)
         if query == "":
             return render(request, 'engine/home.html')
         else:
-            results = []
-            #type api key
-            page = requests.get(f'https://search.lycos.com/web/?q=' + query).text
-            soup = BeautifulSoup(page, 'lxml')
-            listings = soup.find_all(class_="result-item")
-            for content in listings:
-                title = content.find(class_='result-title').text
-                description = content.find(class_='result-description').text
-                link = content.find(class_='result-link').text
-                url = content.find(class_='result-url').text
-                results.append((title,description,url))
-            context = {
-                'results':results
-            }
-            return render(request, 'engine/results.html', context)
-    else:
-        return render(request, 'engine/results.html')
+            return render(request, 'engine/results.html', {'results': data})
+
 
 
 def about(request):
